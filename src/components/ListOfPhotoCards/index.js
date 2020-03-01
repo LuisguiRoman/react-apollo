@@ -8,7 +8,9 @@ export const ListOfPhotoCards = () => {
     return(
         <ul>
             {[1,2,3,4].map(id => (
-                <PhotoCard key={`card-${id}`} />
+                <li key={`card-${id}`}>
+                    <PhotoCard />
+                </li>
             ))}
         </ul>
     );
