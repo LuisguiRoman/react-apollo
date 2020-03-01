@@ -2,6 +2,10 @@ import styled from 'styled-components';
 import { fadeIn } from '../../styles/animations';
 
 
+export const Article = styled.article`
+    min-height: 150px;
+`;
+
 export const Figure = styled.figure`
     border-radius: 10px;
     display: block;
