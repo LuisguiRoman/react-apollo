@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, Fragment } from 'react';
-import { MdFavoriteBorder } from 'react-icons/md';
+import { MdFavoriteBorder, MdFavorite } from 'react-icons/md';
 
 import { Figure, Image, Button, Article } from './styles';
 
@@ -8,6 +8,16 @@ const DEFAULT_IMAGE = 'https://res.cloudinary.com/midudev/image/upload/w_150/v15
 export const PhotoCard = ({id, src = DEFAULT_IMAGE, likes = 0}) => {
     //state
     const [show, setShow] = useState(false);
+    const [liked, setLiked] = useState(()=>{
+        //setear un estado inicial con localstorage
+        try {
+            const like = localStorage.getItem(`like-${id}`);
+            return like;
+        } catch (error) {
+            return false;
+        }
+    });
+
     //ref
     const element = useRef(null);
 
@@ -28,6 +38,18 @@ export const PhotoCard = ({id, src = DEFAULT_IMAGE, likes = 0}) => {
         })
     }, [element]);
 
+    //Toggle de likes
+    const Icon = liked ? MdFavorite : MdFavoriteBorder;
+
+    const setLocalStorage = value =>{
+        try {
+            localStorage.setItem(`like-${id}`, value);
+            setLiked(true);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return(
         <Article ref={element}>
             {show && 
@@ -38,8 +60,8 @@ export const PhotoCard = ({id, src = DEFAULT_IMAGE, likes = 0}) => {
                     </Figure>
                 </a>
 
-                <Button type="button">
-                    <MdFavoriteBorder size="32" /> {likes} likes!
+                <Button type="button" onClick={()=> setLocalStorage(!liked) }>
+                    <Icon size="32" /> {likes} likes!
                 </Button>
             </Fragment>
             }
