@@ -5,19 +5,29 @@ import { List, ListItem } from './styles';
 //constants
 import { SERVER_URL } from '../../constants';
 
-export const ListOfCategories = () => {
+const useCategoryData = () =>{
     //state
     const [categories, setCategories] = useState([]);
-    const [showFixed, setShowFixed] = useState(false);
-
+    const [loading, setLoading] = useState(false);
+    
     useEffect(()=>{
+        setLoading(true);
+
         fetch(`${SERVER_URL}/categories`)
             .then(res => res.json())
             .then(response => {
-                //console.log('cats: ', response);
+                setLoading(false);
                 setCategories(response);
             });
     }, []);
+
+    return { categories, loading };
+}
+
+export const ListOfCategories = () => {
+    //state
+    const { categories, loading } = useCategoryData();
+    const [showFixed, setShowFixed] = useState(false);
 
     useEffect(()=>{
         const onScroll = event =>{
@@ -30,12 +40,18 @@ export const ListOfCategories = () => {
     }, [showFixed]);
 
     const renderList = (fixed) => (
-        <List className={fixed ? 'fixed' : ''}>
-            {categories.map(category =>(
-                <ListItem key={`cat-${category.id}`}>
-                    <Category {...category} />
-                </ListItem>
-            ))}
+        <List fixed={fixed}>
+            {
+                loading ? 
+                <ListItem key={`cat-0`}>
+                    <Category />
+                </ListItem> : 
+                categories.map(category =>(
+                    <ListItem key={`cat-${category.id}`}>
+                        <Category {...category} />
+                    </ListItem>
+                ))
+            }
         </List>
     );
 
