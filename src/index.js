@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider } from '@apollo/react-hooks';
 import { App } from './App';
 
 //constants
@@ -9,7 +9,7 @@ import { SERVER_URL } from './constants';
 
 //crear un provider con la api de graphql
 const client = new ApolloClient({
-    url: `${SERVER_URL}/graphql`
+    uri: `${SERVER_URL}/graphql`
 });
 
 ReactDOM.render(
