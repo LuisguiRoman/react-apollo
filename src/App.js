@@ -1,26 +1,51 @@
 import React, { Fragment } from 'react';
+import { Router } from '@reach/router';
+
+//context
+import { Context } from './context';
+
+//styles
 import { GlobalStyle } from './styles/GlobalStyles';
+
+import { NavBar } from './components/NavBar';
 import { Logo } from './components/Logo';
-import { ListOfCategories } from './components/ListOfCategories';
-import { ListOfPhotoCards } from './components/ListOfPhotoCards';
-import { CardView } from './components/CardView';
+
+//pages
+import { Home } from './components/pages/Home';
+import { Favs } from './components/pages/Favs';
+import { User } from './components/pages/User';
+import { NotRegisterUser } from './components/pages/NotRegisterUser';
+import { Detail } from './components/pages/Detail';
 
 
-export const App = () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const detalId = urlParams.get('detail');
 
-    return(
-        <Fragment>
-            <GlobalStyle/>
-            <Logo />
+export const App = () => (
+    <Fragment>
+        <GlobalStyle/>
+        <Logo />
+        
+        <Router>
+            <Home path='/' />
+            <Home path='/pet/:categoryId' />
+            <Detail path='/detail/:detalId' />
+        </Router>
+
+        <Context.Consumer>
             {
-                detalId ? <CardView id={detalId} /> :
-                <Fragment>
-                    <ListOfCategories />
-                    <ListOfPhotoCards categoryId={1} />
-                </Fragment>
+            ({ isAuth }) =>
+                isAuth ? 
+                <Router>
+                    <Favs path='/favs' />
+                    <User path='/user' />
+                </Router> : 
+                <Router>
+                    <NotRegisterUser path='/favs' />
+                    <NotRegisterUser path='/user' />
+                </Router>
             }
-        </Fragment>
-    );
-};
+        </Context.Consumer>
+
+        <NavBar />
+
+    </Fragment>
+);

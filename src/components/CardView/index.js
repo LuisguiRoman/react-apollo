@@ -4,7 +4,7 @@ import { useQuery } from'@apollo/react-hooks'
 import { PhotoCard } from '../PhotoCard';
 
 //query
-import { GET_SINGLE_PHOTO } from '../../queries/getPhotoCard';
+import { GET_SINGLE_PHOTO } from '../../graphql/queries/getPhotoCard';
 
 export const CardView = ({ id }) => {
     const { loading, data } = useQuery(GET_SINGLE_PHOTO, {

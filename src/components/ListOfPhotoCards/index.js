@@ -2,7 +2,7 @@ import React from 'react';
 import { useQuery } from'@apollo/react-hooks';
 
 //query
-import { GET_ALL_PHOTOS } from '../../queries/getPhotos';
+import { GET_ALL_PHOTOS } from '../../graphql/queries/getPhotos';
 
 //components
 import { PhotoCard } from '../PhotoCard';

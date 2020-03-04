@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
-import { MdFavoriteBorder, MdFavorite } from 'react-icons/md';
+import { useMutation } from '@apollo/react-hooks';
+import { Link } from '@reach/router';
 
 import { Figure, Image, Article } from './styles';
 
@@ -9,6 +10,9 @@ import { FavButton } from '../FavButton';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { useNearScreen } from '../../hooks/useNearScreen';
 
+//mutation
+import { LIKE_PHOTO } from '../../graphql/mutations/likeMutation';
+
 const DEFAULT_IMAGE = 'https://res.cloudinary.com/midudev/image/upload/w_150/v1555671700/category_cats.jpg';
 
 export const PhotoCard = ({id, src = DEFAULT_IMAGE, likes = 0}) => {
@@ -16,21 +20,30 @@ export const PhotoCard = ({id, src = DEFAULT_IMAGE, likes = 0}) => {
     const [liked, setLiked] = useLocalStorage(`like-${id}`, false);
     const [show, element] = useNearScreen();
 
-    const handleFavClick = () => setLiked(!liked);
+    const [likePhoto] = useMutation(LIKE_PHOTO);
+
+    const handleFavClick = () => {
+        //si es true ?
+        !liked && likePhoto({
+            variables: { input: { id } }
+        });
+        setLiked(!liked);
+    };
 
     return(
         <Article ref={element}>
             {show && 
             <Fragment>
-                <a href={`/?detail=${id}`}>
+                <Link to={`/detail/${id}`}>
                     <Figure>
                         <Image src={src} alt="Imagen" />
                     </Figure>
-                </a>
+                </Link>
 
                 <FavButton 
                     likes={likes} liked={liked} 
                     onClick={handleFavClick} />
+                    
             </Fragment>
             }
         </Article>
