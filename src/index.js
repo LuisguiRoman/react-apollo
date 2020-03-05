@@ -13,7 +13,22 @@ import { SERVER_URL } from './constants';
 
 //crear un provider con la api de graphql
 const client = new ApolloClient({
-    uri: `${SERVER_URL}/graphql`
+    uri: `${SERVER_URL}/graphql`,
+    request: operation => {
+        const token = sessionStorage.getItem('token');
+        const authorization  = token ? `Bearer ${token}` : '';
+        operation.setContext({
+            headers: { authorization }
+        });
+    },
+    onError: error => {
+        const { networkError } = error;
+        //si el token no es valido
+        if(networkError && networkError.result.code === 'invalid_token'){
+            sessionStorage.removeItem('token');
+            window.location.href = '/';
+        }
+    }
 });
 
 ReactDOM.render(
