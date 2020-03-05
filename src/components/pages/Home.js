@@ -6,7 +6,7 @@ import { Layout } from '../Layout';
 import { ListOfCategories } from '../../components/ListOfCategories';
 import { ListOfPhotoCards } from '../../components/ListOfPhotoCards';
 
-export const Home = ({categoryId}) => (
+const HomePage = ({categoryId}) => (
     <Fragment>
         <Layout title="Petgram - Fotos de mascotas"
                 meta="App de fotos de animales domesticos" />
@@ -15,3 +15,8 @@ export const Home = ({categoryId}) => (
         <ListOfPhotoCards categoryId={categoryId} />
     </Fragment>
 );
+
+//evitar re renders innesesarios si las props
+//del componente no cambian
+//y mejorar la performance
+export const Home = React.memo(HomePage);

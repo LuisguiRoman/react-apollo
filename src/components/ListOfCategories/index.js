@@ -24,7 +24,7 @@ const useCategoryData = () =>{
     return { categories, loading };
 }
 
-export const ListOfCategories = () => {
+const ListOfCategoriesContainer = () => {
     //state
     const { categories, loading } = useCategoryData();
     const [showFixed, setShowFixed] = useState(false);
@@ -62,3 +62,7 @@ export const ListOfCategories = () => {
         </Fragment>
     );
 }
+
+//evitar re renders innesesarios si las props
+//del componente no cambian
+export const ListOfCategories = React.memo(ListOfCategoriesContainer);
