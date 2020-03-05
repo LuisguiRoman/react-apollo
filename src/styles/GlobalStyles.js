@@ -11,6 +11,11 @@ export const GlobalStyle = createGlobalStyle`
         box-sizing: border-box;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     }
+
+    img, video, svg{
+        max-width: 100%;
+        height: auto;
+    }
     
     *, *::before, *::after {
         box-sizing: inherit;
