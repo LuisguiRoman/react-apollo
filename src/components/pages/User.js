@@ -1,5 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-export const User = () => (
-    <h1>User</h1>
-);
+//context
+import { Context } from '../../context';
+
+export const User = () =>{
+    const { removeAuth } = useContext(Context);
+
+    return(
+        <button onClick={removeAuth}>Cerrar sesión</button>
+    );
+}

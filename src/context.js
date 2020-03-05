@@ -12,6 +12,10 @@ export const Provider = ({children}) =>{
         activateAuth: (token) =>{
             sessionStorage.setItem('token', token);
             setIsAuth(true);
+        },
+        removeAuth: () =>{
+            sessionStorage.removeItem('token');
+            setIsAuth(false);
         }
     }
 
