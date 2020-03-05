@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
-import { Router } from '@reach/router';
+import React, { Fragment, useContext } from 'react';
+import { Router, Redirect } from '@reach/router';
 
 //context
 import { Context } from './context';
@@ -16,36 +16,34 @@ import { Favs } from './components/pages/Favs';
 import { User } from './components/pages/User';
 import { NotRegisterUser } from './components/pages/NotRegisterUser';
 import { Detail } from './components/pages/Detail';
+import { NotFound } from './components/pages/NotFound';
 
 
 
-export const App = () => (
-    <Fragment>
-        <GlobalStyle/>
-        <Logo />
-        
-        <Router>
-            <Home path='/' />
-            <Home path='/pet/:categoryId' />
-            <Detail path='/detail/:detalId' />
-        </Router>
+export const App = () => {
+    const { isAuth } = useContext(Context);
 
-        <Context.Consumer>
-            {
-            ({ isAuth }) =>
-                isAuth ? 
-                <Router>
-                    <Favs path='/favs' />
-                    <User path='/user' />
-                </Router> : 
-                <Router>
-                    <NotRegisterUser path='/favs' />
-                    <NotRegisterUser path='/user' />
-                </Router>
-            }
-        </Context.Consumer>
+    return(
+        <Fragment>
+            <GlobalStyle/>
+            <Logo />
+            
+            <Router>
+                <NotFound default />
+                <Home path='/' />
+                <Home path='/pet/:categoryId' />
+                <Detail path='/detail/:detalId' />
+                {!isAuth && <NotRegisterUser path='/login' />}
+                {!isAuth && <Redirect noThrow from='/favs' to='/login' />}
+                {!isAuth && <Redirect noThrow from='/user' to='/login' />}
+                {isAuth && <Redirect noThrow from='/login' to='/' />}
+                <Favs path='/favs' />
+                <User path='/user' />
 
-        <NavBar />
+            </Router>
 
-    </Fragment>
-);
+            <NavBar />
+
+        </Fragment>
+    );
+};
