@@ -6,7 +6,7 @@ import { ListOfFavs } from '../ListOfFavs';
 //query
 import { GET_FAVS } from '../../graphql/queries/getFavorites';
 
-export const Favs = () => {
+export default () => {
     const { loading, data } = useQuery(GET_FAVS, {
         //eliminar la cache para agregar nuevos favoritos
         fetchPolicy: 'cache-and-network'

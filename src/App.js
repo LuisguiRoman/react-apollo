@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from 'react';
+import React, { useContext, Suspense } from 'react';
 import { Router, Redirect } from '@reach/router';
 
 //context
@@ -12,19 +12,21 @@ import { Logo } from './components/Logo';
 
 //pages
 import { Home } from './components/pages/Home';
-import { Favs } from './components/pages/Favs';
+//import { Favs } from './components/pages/Favs';
 import { User } from './components/pages/User';
 import { NotRegisterUser } from './components/pages/NotRegisterUser';
 import { Detail } from './components/pages/Detail';
 import { NotFound } from './components/pages/NotFound';
 
+//import dinamico con react lazy
+const Favs = React.lazy(() => import('./components/pages/Favs'));
 
 
 export const App = () => {
     const { isAuth } = useContext(Context);
 
     return(
-        <Fragment>
+        <Suspense fallback={<div />}>
             <GlobalStyle/>
             <Logo />
             
@@ -44,6 +46,6 @@ export const App = () => {
 
             <NavBar />
 
-        </Fragment>
+        </Suspense>
     );
 };
